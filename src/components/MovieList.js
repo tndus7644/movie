@@ -17,7 +17,17 @@ const MovieList = (props) => {
 }
 
 const Container = styled.div`
-  
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 0 15px;
+  div.image-container{
+    margin: 15px;
+    max-width: 300px;
+    img{
+      max-width: 100%;
+    }
+  }
 `;
 
 export default MovieList;

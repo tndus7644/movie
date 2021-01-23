@@ -2,13 +2,16 @@ import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {GlobalStyle} from "./Styled/Common.Styled";
 import MovieList from "./components/MovieList";
+import MovieListHeading from "./components/MovieListHeading";
+import SearchBox from "./components/SearchBox";
 
 const App = () => {
 
     const [movies, setMovies] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
 
-    const getMovieRequest = async () => {
-        const url = `http://www.omdbapi.com/?s=harry potter&apikey=fcce40d0`;
+    const getMovieRequest = async (searchValue) => {
+        const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=fcce40d0`;
 
         const response = await fetch(url);
         const responseJson = await response.json();
@@ -19,13 +22,15 @@ const App = () => {
     }
 
     useEffect(() => {
-        getMovieRequest();
-    },[]);
+        getMovieRequest(searchValue);
+    },[searchValue]);
 
     return(
         <Container>
             <GlobalStyle/>
             <Movieapp>
+                <MovieListHeading heading={'Movies'}/>
+                <SearchBox searchValue={searchValue} setSearchValue={setSearchValue}/>
                 <Row>
                     <MovieList movies={movies}/>
                 </Row>
@@ -37,16 +42,13 @@ const App = () => {
 const Container = styled.div`
   background: #141414;
   color: #fff;
+  padding: 20px;
 `;
 
 const Movieapp = styled.div`
-  background: #141414;
-  color: #fff;
 `;
 
 const Row = styled.div`
-  flex-wrap: wrap;
-  display: flex;
 `;
 
 export default App;
