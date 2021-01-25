@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AddToFavourites = () => {
+const AddFavourites = () => {
 
     return(
         <Container>
@@ -32,4 +32,4 @@ const Span = styled.span`
     margin-right: 5px;
 `;
 
-export default AddToFavourites;
+export default AddFavourites;

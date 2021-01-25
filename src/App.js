@@ -1,71 +1,70 @@
-import React,{useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import MovieList from './components/MovieList';
+import MovieListHeading from './components/MovieListHeading';
+import SearchBox from './components/SearchBox';
+import AddFavourites from './components/AddFavourites';
 import {GlobalStyle} from "./Styled/Common.Styled";
-import MovieList from "./components/MovieList";
-import MovieListHeading from "./components/MovieListHeading";
-import SearchBox from "./components/SearchBox";
-import AddToFavourites from "./components/AddToFavourites";
 
 const App = () => {
-
     const [movies, setMovies] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [favourites, setFavourites] = useState([]);
 
     const getMovieRequest = async (searchValue) => {
-        const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=fcce40d0`;
+        const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=263d22d8`;
 
         const response = await fetch(url);
         const responseJson = await response.json();
 
-        if(responseJson.Search){
+        if (responseJson.Search) {
             setMovies(responseJson.Search);
         }
-    }
+    };
 
-    const addFavouritesMovie = (movie) => {
-        const newFavouritesList = [...favourites, movie];
-        setFavourites(newFavouritesList);
-    }
+    const addFavouriteMovie = (movie) => {
+        const newFavouriteList = [...favourites, movie];
+        setFavourites(newFavouriteList);
+    };
 
     useEffect(() => {
         getMovieRequest(searchValue);
-    },[searchValue]);
+    }, [searchValue]);
 
-    return(
+    return (
         <Container>
             <GlobalStyle/>
-            <Movieapp>
-                <MovieListHeading heading={'Movies'}/>
-                <SearchBox searchValue={searchValue} setSearchValue={setSearchValue}/>
-                <Row>
+            <div className='container-fluid movie-app'>
+                <div className='row d-flex align-items-center mt-4 mb-4'>
+                    <MovieListHeading heading='Movies' />
+                    <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
+                </div>
+                <div className='row'>
                     <MovieList
                         movies={movies}
-                        favouritesComponent={AddToFavourites}
-                        handleFavoruitesClick={addFavouritesMovie}
+                        favouriteComponent={AddFavourites}
+                        handleFavouritesClick={addFavouriteMovie}
                     />
-                </Row>
-                <Row>
-                    <h1>Favourites Movies</h1>
-                    <Row>
-                        <MovieList movies={favourites} favoruiteComponent={AddToFavourites}/>
-                    </Row>
-                </Row>
-            </Movieapp>
+                </div>
+                <div className='row d-flex align-items-center mt-4 mb-4'>
+                    <MovieListHeading heading='Favourites' />
+                </div>
+                <div className='row'>
+                    <MovieList movies={favourites} favouriteComponent={AddFavourites} />
+                </div>
+            </div>
         </Container>
-    )
-}
+    );
+};
 
 const Container = styled.div`
-  background: #141414;
-  color: #fff;
-  padding: 20px;
-`;
-
-const Movieapp = styled.div`
-`;
-
-const Row = styled.div`
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #333;
+  padding: 10px 30px;
+  margin: 0 auto;
 `;
 
 export default App;
